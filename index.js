@@ -34,6 +34,21 @@ app.post("/api/products", async (req, res) => {
   }
 });
 // update a product
+app.put("/api/product/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// delete a product
 
 mongoose
   .connect(
